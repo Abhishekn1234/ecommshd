@@ -10,6 +10,9 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
+        if (session()->has('user')) {
+            return redirect('/');
+        }
         return view('login');
     }
 
@@ -19,7 +22,7 @@ class AuthController extends Controller
 
         if ($response->successful()) {
             session(['user' => $response->json()]);
-            return redirect('/home');
+            return redirect('/');
         }
 
         return back()->withErrors(['msg' => 'Login failed']);
@@ -27,6 +30,9 @@ class AuthController extends Controller
 
     public function showOtpLoginForm()
     {
+        if (session()->has('user')) {
+            return redirect('/');
+        }
         return view('otp-login');
     }
 
@@ -58,6 +64,10 @@ class AuthController extends Controller
 
     public function showOtpVerifyForm()
     {
+        if (session()->has('user')) {
+            return redirect('/');
+        }
+
         return view('verify-otp', [
             'email' => session('email') ?? '',
             'otp'   => session('otp') ?? ''
@@ -93,7 +103,7 @@ class AuthController extends Controller
             session()->forget(['email', 'otp', 'otp_time']);
             session(['user' => $response->json()]);
 
-            return redirect('/home')->with('message', 'OTP verified successfully!');
+            return redirect('/')->with('message', 'OTP verified successfully!');
         }
 
         $errorMsg = $response->json('message') ?? 'OTP verification failed.';
@@ -102,6 +112,9 @@ class AuthController extends Controller
 
     public function showRegisterForm()
     {
+        if (session()->has('user')) {
+            return redirect('/');
+        }
         return view('register');
     }
 
