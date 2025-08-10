@@ -11,98 +11,94 @@
       background: #f0f2f5;
       font-family: 'Segoe UI', sans-serif;
     }
-
     .login-card {
       background-color: #fff;
       border-radius: 10px;
       padding: 30px;
-      max-width: 400px;
+      max-width: 420px;
       width: 100%;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
     }
-
+    h3 {
+      font-weight: 600;
+      color: #333;
+    }
+    .form-label {
+      font-weight: 500;
+      font-size: 14px;
+    }
+    .input-group .form-control {
+      font-size: 14px;
+      padding: 10px;
+      border-radius: 6px;
+    }
+    .input-group-text {
+      cursor: pointer;
+      background: #f8f9fa;
+      border-left: none;
+    }
+    .btn-primary {
+      font-weight: 500;
+      padding: 10px;
+      border-radius: 6px;
+    }
+    .footer-text {
+      font-size: 14px;
+    }
+    .footer-text a {
+      color: #0d6efd;
+      text-decoration: none;
+    }
+    .footer-text a:hover {
+      text-decoration: underline;
+    }
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+    }
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #ddd;
+    }
+    .divider-text {
+      padding: 0 10px;
+      color: #888;
+      font-size: 12px;
+    }
+    /* Social buttons */
     .social-btn {
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 10px;
-      border-radius: 5px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: 0.3s ease;
       margin-bottom: 10px;
-      width: 100%;
-      font-size: 15px;
-    }
-
-    .social-btn i {
-      margin-right: 10px;
-    }
-
-    .btn-google {
-      background-color: #fff;
-      color: #444;
-      border: 1px solid #ccc;
-    }
-
-    .btn-google:hover {
-      background-color: #f8f9fa;
-      border-color: #bbb;
-    }
-
-    .btn-facebook {
-      background-color: #1877f2;
-      color: #fff;
-      border: 1px solid #1877f2;
-    }
-
-    .btn-facebook:hover {
-      background-color: #145cc2;
-      border-color: #145cc2;
-    }
-
-    .divider {
-      display: flex;
-      align-items: center;
-      text-align: center;
-      margin: 25px 0;
-    }
-
-    .divider::before,
-    .divider::after {
-      content: '';
-      flex: 1;
-      border-bottom: 1px solid #ccc;
-    }
-
-    .divider-text {
-      padding: 0 15px;
-      color: #888;
+      border-radius: 6px;
       font-size: 14px;
-    }
-
-    .form-control {
-      font-size: 14px;
-      padding: 10px;
-    }
-
-    .btn-primary {
       font-weight: 500;
-      padding: 10px;
-    }
-
-    .footer-text {
-      font-size: 14px;
-      color: #555;
-    }
-
-    .footer-text a {
       text-decoration: none;
-      color: #007bff;
+      transition: 0.2s ease-in-out;
     }
-
-    .footer-text a:hover {
-      text-decoration: underline;
+    .btn-google {
+      background: #fff;
+      color: #444;
+      border: 1px solid #ddd;
+    }
+    .btn-google:hover {
+      background: #f8f9fa;
+    }
+    .btn-facebook {
+      background: #1877f2;
+      color: #fff;
+    }
+    .btn-facebook:hover {
+      background: #145dbf;
+    }
+    .social-btn i {
+      margin-right: 8px;
     }
   </style>
 </head>
@@ -112,7 +108,6 @@
   <div class="login-card">
     <h3 class="text-center mb-4">Welcome Back</h3>
 
-    <!-- Regular Login Form -->
     <form action="/login" method="POST">
       @csrf
       <div class="mb-3">
@@ -122,7 +117,12 @@
 
       <div class="mb-3">
         <label class="form-label">Password</label>
-        <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+        <div class="input-group">
+          <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
+          <span class="input-group-text" id="togglePassword">
+            <i class="fa-solid fa-eye"></i>
+          </span>
+        </div>
       </div>
 
       <button type="submit" class="btn btn-primary w-100">Login</button>
@@ -141,20 +141,35 @@
       New user? <a href="/register">Register</a>
     </div>
 
-    <div class="divider">
+    <div class="divider my-3">
       <span class="divider-text">OR</span>
     </div>
 
-    <!-- Social Login Buttons -->
     <a href="#" class="social-btn btn-google">
       <i class="fab fa-google"></i> Continue with Google
     </a>
-
     <a href="#" class="social-btn btn-facebook">
       <i class="fab fa-facebook-f"></i> Continue with Facebook
     </a>
   </div>
 </div>
+
+<script>
+  document.getElementById('togglePassword').addEventListener('click', function () {
+    const passwordInput = document.getElementById('password');
+    const icon = this.querySelector('i');
+
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+    } else {
+      passwordInput.type = 'password';
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+    }
+  });
+</script>
 
 </body>
 </html>
